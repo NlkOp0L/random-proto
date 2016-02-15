@@ -19,9 +19,9 @@ class player(entity):
             if dist > self.width / 2:
                 travelled_x = (dx / dist) * self.speed * elapsed
                 travelled_y = (dy / dist) * self.speed * elapsed
-                self.target_destination_travelled += math.sqrt(math.pow(travelled_x, 2) + math.pow(travelled_y, 2))
+                self.travelled += math.sqrt(math.pow(travelled_x, 2) + math.pow(travelled_y, 2))
 
-                if self.move_range - self.target_destination_travelled < self.width / 2:
+                if self.move_range - self.travelled < self.width / 2:
                     self.stop_moving()
 
                 self.x += travelled_x
@@ -37,7 +37,7 @@ class player(entity):
 
     def set_new_turn(self):
         self.can_move = True
-        self.target_destination_travelled = 0
+        self.travelled = 0
 
     def stop_moving(self):
         self.set_destination((self.x, self.y))
@@ -47,5 +47,5 @@ class player(entity):
         self.move(elapsed)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, 0xFFFF00, (int(self.move_start_x), int(self.move_start_y)), int(self.move_range - self.target_destination_travelled))
+        pygame.draw.circle(screen, 0xFFFF00, (int(self.move_start_x), int(self.move_start_y)), int(self.move_range - self.travelled))
         pygame.draw.circle(screen, 0x0000ff, (int(self.x), int(self.y)), int(self.width))
