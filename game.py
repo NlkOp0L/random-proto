@@ -16,25 +16,29 @@ class game:
 
         self.clock = pygame.time.Clock()
 
-        self.player = player(300, 300, 10, 10, 200, 200)
+        self.player = player(300, 300, 10, 10, 100, 200, 200)
 
     def run(self):
         fps = 0
         elapsed = 0
         totElapsed = 0
 
-        while True:            
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: 
                     self.quit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.quit()
-                    if event.key == pygame.K_SPACE:
+                    elif event.key == pygame.K_SPACE:
                         self.player.set_new_turn()
+                    elif event.key == pygame.K_r:
+                        self.player.reload_weapon()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.player.set_destination(pygame.mouse.get_pos())
+                    else:
+                        self.player.fire_weapon()
 
             elapsed = self.clock.tick(120)
             totElapsed += elapsed

@@ -1,14 +1,19 @@
 import pygame, math
 
 from entities.entity import entity
+from items.weapon import weapon, weapon_type
 
 
 class player(entity):
-    def __init__(self, x, y, width, height, speed, move_range):
-        super(player, self).__init__(x, y, width, height, speed, move_range)
+    def __init__(self, x, y, width, height, health, speed, move_range):
+        super(player, self).__init__(x, y, width, height, health, speed, move_range)
 
         self.target_destination_x = self.x
         self.target_destination_y = self.y
+
+        pp = weapon('PewPew', weapon_type.gun, 50, 150, 30, 6)
+        self.weapons[pp.name] = pp
+        self.equiped_weapon = pp.name
 
     def move(self, elapsed):
         if self.can_move:
@@ -35,6 +40,12 @@ class player(entity):
             self.target_destination_x = pos[0]
             self.target_destination_y = pos[1]
 
+    def fire_weapon(self):
+        self.weapons[self.equiped_weapon].fire()
+
+    def reload_weapon(self):
+        self.weapons[self.equiped_weapon].reload();
+
     def set_new_turn(self):
         self.can_move = True
         self.travelled = 0
@@ -47,5 +58,6 @@ class player(entity):
         self.move(elapsed)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, 0xFFFF00, (int(self.move_start_x), int(self.move_start_y)), int(self.move_range - self.travelled))
+        pygame.draw.circle(screen, 0xffff00, (int(self.move_start_x), int(self.move_start_y)), int(self.move_range - self.travelled))
+        self.weapons[self.equiped_weapon].draw(screen, self.x, self.y)
         pygame.draw.circle(screen, 0x0000ff, (int(self.x), int(self.y)), int(self.width))
