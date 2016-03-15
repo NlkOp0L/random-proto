@@ -11,7 +11,7 @@ class player(entity):
         self.target_destination_x = self.x
         self.target_destination_y = self.y
 
-        pp = weapon('PewPew', weapon_type.gun, 50, 150, 30, 6)
+        pp = weapon('PewPew', weapon_type.gun, 50, 300, 30, 6, 10, self)
         self.weapons[pp.name] = pp
         self.equiped_weapon = pp.name
 
@@ -40,8 +40,8 @@ class player(entity):
             self.target_destination_x = pos[0]
             self.target_destination_y = pos[1]
 
-    def fire_weapon(self):
-        self.weapons[self.equiped_weapon].fire()
+    def fire_weapon(self, dest):
+        self.weapons[self.equiped_weapon].fire(dest)
 
     def reload_weapon(self):
         self.weapons[self.equiped_weapon].reload();
@@ -56,6 +56,7 @@ class player(entity):
 
     def update(self, elapsed):
         self.move(elapsed)
+        self.weapons[self.equiped_weapon].update(elapsed)
 
     def draw(self, screen):
         pygame.draw.circle(screen, 0xffff00, (int(self.move_start_x), int(self.move_start_y)), int(self.move_range - self.travelled))

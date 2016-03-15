@@ -38,7 +38,7 @@ class game:
                     if event.button == 1:
                         self.player.set_destination(pygame.mouse.get_pos())
                     else:
-                        self.player.fire_weapon()
+                        self.player.fire_weapon(pygame.mouse.get_pos())
 
             elapsed = self.clock.tick(120)
             totElapsed += elapsed
