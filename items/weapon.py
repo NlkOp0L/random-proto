@@ -5,7 +5,7 @@ from items.ammo import ammo
 
 
 class weapon(item):
-    def __init__(self, name, weapon_type, damage, attack_range, ammo, clip_size, spread, parent_entity):
+    def __init__(self, name, weapon_type, damage, attack_range, ammo, magazine_size, spread, parent_entity):
         super(weapon, self).__init__(name, item_type.weapon, parent_entity)
 
         self.weapon_type = weapon_type
@@ -14,28 +14,28 @@ class weapon(item):
         self.spread = spread
 
         self.ammo = ammo
-        self.clip = 0
-        self.clip_size = clip_size
+        self.magazine = 0
+        self.magazine_size = magazine_size
         self.reload()
 
         self.fired = []
 
     def reload(self):
         if self.ammo > 0:
-            delta = min(self.clip_size - self.clip, self.ammo)
+            delta = min(self.magazine_size - self.magazine, self.ammo)
 
-            self.clip += delta
+            self.magazine += delta
             self.ammo -= delta
-            print('Reloded!  - ' + str(self.clip) + '/' + str(self.ammo))
+            print('Reloded!  - ' + str(self.magazine) + '/' + str(self.ammo))
         else:
             print('Empty!!')
 
     def fire(self, dest):
         if self.can_use:
-            if self.clip > 0:
-                self.clip -= 1
+            if self.magazine > 0:
+                self.magazine -= 1
                 self.fired.append(ammo('bullet', (self.parent_entity.x, self.parent_entity.y), dest, 500, self))
-                print('Bang!     - ' + str(self.clip) + '/' + str(self.ammo))
+                print('Bang!     - ' + str(self.magazine) + '/' + str(self.ammo))
             else:
                 print('Reload!')
         else:
